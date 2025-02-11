@@ -28,12 +28,12 @@ def stream():
             answer_chunk = chunk.choices[0].delta.content
             
             if reasoning_chunk:
-                yield f"data: {reasoning_chunk}\n\n"
+                yield f"{reasoning_chunk}\n\n"
             elif answer_chunk:
                 if not done_reasoning:
-                    yield "data: \n\n === Final Answer ===\n\n"
+                    yield "\n\n=== Final Answer ===\n\n"
                     done_reasoning = True
-                yield f"data: {answer_chunk}\n\n"
+                yield f"{answer_chunk}\n\n"
                 
     return Response(
         stream_with_context(generate()),
