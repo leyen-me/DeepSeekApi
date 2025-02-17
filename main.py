@@ -12,6 +12,12 @@ app = Flask(__name__)
 CORS(app)
 
 
+@app.before_request
+def log_request_info():
+    ip = request.remote_addr
+    print(f"Access from IP: {ip}")
+
+
 @app.route("/stream", methods=["POST"])
 def stream():
     messages = request.json
