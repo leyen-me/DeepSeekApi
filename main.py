@@ -15,24 +15,27 @@ CORS(app)
 @app.before_request
 def log_request_info():
     ip = request.remote_addr
-    print(f"Access from IP: {ip}")
+    ip_str = f"Access from IP: {ip}"
+    print(ip_str)
+    app.logger.info(ip_str)
 
 
 @app.route("/stream", methods=["POST"])
 def stream():
     messages = request.json
+
     def generate():
         response = client.chat.completions.create(
             model='deepseek-ai/DeepSeek-R1',
             messages=messages,
             stream=True
         )
-        
+
         done_reasoning = False
         for chunk in response:
             reasoning_chunk = chunk.choices[0].delta.reasoning_content
             answer_chunk = chunk.choices[0].delta.content
-            
+
             if reasoning_chunk:
                 yield f"{reasoning_chunk}"
             elif answer_chunk:
@@ -40,7 +43,7 @@ def stream():
                     yield "=== Final Answer ==="
                     done_reasoning = True
                 yield f"{answer_chunk}"
-                
+
     return Response(
         stream_with_context(generate()),
         mimetype='text/event-stream'
@@ -50,6 +53,7 @@ def stream():
 @app.route("/v3/stream", methods=["POST"])
 def stream_v3():
     messages = request.json
+
     def generate():
         response = client.chat.completions.create(
             model='deepseek-ai/DeepSeek-V3',
@@ -58,7 +62,7 @@ def stream_v3():
         )
         for chunk in response:
             yield chunk.choices[0].delta.content
-                
+
     return Response(
         stream_with_context(generate()),
         mimetype='text/event-stream'
