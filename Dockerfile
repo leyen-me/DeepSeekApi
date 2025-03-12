@@ -1,5 +1,5 @@
-# 使用Python 3.9作为基础镜像
-FROM python:3.9-slim
+# 使用Python 3.10作为基础镜像
+FROM python:3.10
 
 # 设置工作目录
 WORKDIR /app
@@ -17,4 +17,4 @@ COPY main.py .
 EXPOSE 5000
 
 # 启动应用
-CMD ["python", "main.py"]
+CMD ["py", "main.py"]
