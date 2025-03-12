@@ -20,4 +20,4 @@ COPY main.py .
 EXPOSE 5000
 
 # 启动应用
-CMD ["py", "main.py"]
+CMD ["python", "main.py"]
