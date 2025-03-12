@@ -4,6 +4,9 @@ FROM python:3.10
 # 设置工作目录
 WORKDIR /app
 
+# 复制所有文件
+COPY . .
+
 # 复制依赖文件
 COPY requirements.txt .
 
