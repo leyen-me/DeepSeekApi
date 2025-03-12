@@ -1,3 +1,4 @@
+import datetime
 import os
 import re
 from flask import Flask, Response, request, stream_with_context
@@ -124,7 +125,6 @@ client = OpenAI(
 )
 
 app = Flask(__name__)
-v3_prompt = build_v3_prompt(tools)
 print_mode = False
 CORS(app)
 
@@ -182,6 +182,7 @@ def process_stream_response(response, messages, tokenizer):
 @app.route("/v1/stream", methods=["POST"])
 def stream():
     body = request.json
+    v3_prompt = build_v3_prompt(tools)
     messages = body.get('messages', [])
     messages.insert(0, {
         "role": "system",
@@ -203,4 +204,10 @@ def stream():
     )
 
 if __name__ == '__main__':
+    print("="*50)
+    print("🚀 服务启动成功!")
+    print(f"📡 服务运行在: http://0.0.0.0:5000")
+    # 当前时间
+    print(f"⏰ 当前时间: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("="*50)
     app.run(debug=True, host='0.0.0.0', port=5000)
