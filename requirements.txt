@@ -5,3 +5,4 @@ requests==2.31.0
 akshare==1.16.29
 yfinance==0.2.54
 beautifulsoup4==4.13.3
+colorama==0.4.6
