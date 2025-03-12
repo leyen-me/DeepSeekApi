@@ -2,11 +2,11 @@ import datetime
 import os
 import re
 from flask import Flask, Response, request, stream_with_context
-from openai import OpenAI
 from flask_cors import CORS
 from constans.v3_prompt import build_v3_prompt
 from tools import tools
 from enum import Enum, auto
+from constans import client, base_model
 
 class TokenizerState(Enum):
     NORMAL = auto()          # 正常文本状态
@@ -119,10 +119,7 @@ class StreamTokenizer:
             
         return None, False, False
 
-client = OpenAI(
-    base_url='https://api-inference.modelscope.cn/v1/',
-    api_key=os.getenv('MODEL_SCOPE_API_KEY'),
-)
+
 
 app = Flask(__name__)
 print_mode = False
@@ -168,7 +165,7 @@ def process_stream_response(response, messages, tokenizer):
                 })
                 # 创建新的响应流并继续处理
                 new_response = client.chat.completions.create(
-                    model='deepseek-ai/DeepSeek-V3',
+                    model=base_model,
                     messages=messages,
                     stream=True
                 )
@@ -191,7 +188,7 @@ def stream():
     
     def generate(messages):
         response = client.chat.completions.create(
-            model='deepseek-ai/DeepSeek-V3',
+            model=base_model,
             messages=messages,
             stream=True
         )
@@ -207,7 +204,6 @@ if __name__ == '__main__':
     print("="*50)
     print("🚀 服务启动成功!")
     print(f"📡 服务运行在: http://0.0.0.0:5000")
-    # 当前时间
     print(f"⏰ 当前时间: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("="*50)
     app.run(debug=True, host='0.0.0.0', port=5000)

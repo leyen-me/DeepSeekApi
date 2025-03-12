@@ -1,7 +1,7 @@
 from .weather import fetch_weather
 from .stock import fetch_stock
 from .web import fetch_web
-from .url import fetch_url
+from .url import fetch_url, fetch_urls
 
 tools = [
     {

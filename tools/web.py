@@ -2,7 +2,7 @@ import json
 import requests
 from constans import build_tool_response
 from colorama import init, Fore, Style
-
+from .url import fetch_urls
 
 def search_web(query: str) -> list:
     SEARXNG_URL = "https://search.leyen.me/search"
@@ -33,7 +33,8 @@ def format_search_results(results: list, max_results: int = 10) -> str:
             "url": url,
             "content": content
         })
-    return formatted
+    results = fetch_urls(formatted)
+    return results
 
 
 def fetch_web(keyword: str) -> str:
