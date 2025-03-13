@@ -37,7 +37,7 @@ def format_search_results(results: list, max_results: int = 10) -> str:
     return results
 
 
-def fetch_web(keyword: str) -> str:
+def fetch_web(ctx, keyword: str):
     """
     查询指定关键词的网页信息
     """
@@ -47,7 +47,16 @@ def fetch_web(keyword: str) -> str:
 
     try:
         results = format_search_results(search_web(keyword), max_results=10)
-        return build_tool_response(json.dumps(results, ensure_ascii=False))
+
+        ctx['result'] = build_tool_response(json.dumps(results, ensure_ascii=False))
+        ctx['loading'] = False
+        ctx['loading_text'] = "完成"
+        yield f"__tool__:{json.dumps(ctx)}"
     except Exception as e:
         print(Fore.RED + f'查询失败，{e}' + Style.RESET_ALL)
-        return build_tool_response(f'查询失败，{e}')
+
+        error_msg = build_tool_response(f'查询失败，{e}')
+        ctx['result'] = error_msg
+        ctx['loading'] = False
+        ctx['loading_text'] = error_msg
+        yield f"__tool__:{json.dumps(ctx)}"

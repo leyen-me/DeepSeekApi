@@ -4,6 +4,7 @@ import requests
 from constans import build_tool_response
 from concurrent.futures import ThreadPoolExecutor
 from constans import client, base_model
+import json
 
 
 def get_url(url: str) -> str:
@@ -65,7 +66,7 @@ def fetch_urls(arr: list) -> list:
     return results
 
 
-def fetch_url(url: str) -> str:
+def fetch_url(ctx, url: str):
     """
     查询指定URL的网页信息
     """
@@ -78,6 +79,15 @@ def fetch_url(url: str) -> str:
         text = get_url(url)
     except Exception as e:
         print(Fore.RED + f'获取网页信息失败: {e}' + Style.RESET_ALL)
-        return build_tool_response('获取网页信息失败')
+        error_msg = build_tool_response('获取网页信息失败')
 
-    return build_tool_response(text)
+        ctx['result'] = error_msg
+        ctx['loading'] = False
+        ctx['loading_text'] = error_msg
+        yield f"__tool__:{json.dumps(ctx)}"
+        return
+
+    ctx['result'] = build_tool_response(text)
+    ctx['loading'] = False
+    ctx['loading_text'] = "完成"
+    yield f"__tool__:{json.dumps(ctx)}"
