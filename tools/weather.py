@@ -15,7 +15,7 @@ def fetch_weather(ctx, city: str):
     url = f"https://wttr.in/{city}?format=j1&lang=zh"
     response = requests.get(url)
 
-    ctx['result'] = build_tool_response(response.text)
+    ctx['result'] = build_tool_response(response.json())
     ctx['loading'] = False
     ctx['loading_text'] = "完成"
     yield f"__tool__:{json.dumps(ctx)}"

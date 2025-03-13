@@ -21,11 +21,14 @@ tools = [
         "name": "fetch_stock",
         "description": "查询指定股票代码股票信息，支持港股、美股、A股",
         "use_time": "当用户需要具体某一天的股票信息时，使用此工具。非必要时，请勿使用。",
+        "enum": {
+            "type": ["HK", "US", "A"]
+        },
         "parameters": {
             "type": "object",
             "properties": {
                 "symbol": {"type": "string", "description": "股票代码", "example": "000001"},
-                "type": {"type": "string", "value": ["HK", "US", "A"], "description": "股票类型"},
+                "type": {"type": "string", "description": "股票类型", "example": "HK"},
                 "date": {"type": "string", "description": "查询日期", "example": "2023-01-01"},
             },
             "required": ["symbol", "type", "date"]

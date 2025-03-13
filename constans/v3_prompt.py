@@ -14,6 +14,7 @@ V3_PROMPT = """
 
 - 始终以清晰简洁的方式提供最终答案，工具仅用于访问外部信息、实时信息
 - 如果需要使用工具，请将响应格式化为<tool>函数名(参数)</tool><empty/>的格式，如：<tool>fetch_weather("beijing")</tool><empty/>
+- 所有参数按tool所需顺序传入，不要使用元组格式，如：<tool>fetch_weather(city="beijing")</tool><empty/>
 - 其中<empty/>表示暂停回答，不要输出任何内容
 - 传统AI回答时，<empty/>这个位置会有其他回答，我们现在属于高级AI，<empty/>是空的，不要有任何输出，表示暂停回答。
 - 当使用工具后，等待 function_result 后再继续，然后根据结果继续推理
