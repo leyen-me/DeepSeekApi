@@ -1,7 +1,8 @@
 from .weather import fetch_weather
 from .stock import fetch_stock
 from .web import fetch_web
-from .url import fetch_url, fetch_urls
+from .url import fetch_url
+from .net import get_ip_info
 
 tools = [
     {
@@ -60,5 +61,11 @@ tools = [
             "required": ["url"]
         },
         "function": fetch_url
+    },
+    {
+        "name": "get_ip_info",
+        "description": "获取用户的IP信息",
+        "use_time": "当用户需要获取自己的IP信息时，使用此工具。非必要时，请勿使用。",
+        "function": get_ip_info
     }
 ]
