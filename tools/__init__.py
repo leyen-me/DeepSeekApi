@@ -22,14 +22,11 @@ tools = [
         "name": "fetch_stock",
         "description": "查询指定股票代码股票信息，支持港股、美股、A股",
         "use_time": "当用户需要具体某一天的股票信息时，使用此工具。非必要时，请勿使用。",
-        "enum": {
-            "type": ["HK", "US", "A"]
-        },
         "parameters": {
             "type": "object",
             "properties": {
                 "symbol": {"type": "string", "description": "股票代码", "example": "000001"},
-                "type": {"type": "string", "description": "股票类型", "example": "HK"},
+                "type": {"type": "string", "description": "股票类型", "example": "HK", "enum": ["HK", "US", "A"]},
                 "date": {"type": "string", "description": "查询日期", "example": "2023-01-01"},
             },
             "required": ["symbol", "type", "date"]
@@ -43,9 +40,11 @@ tools = [
         "parameters": {
             "type": "object",
             "properties": {
-                "keyword": {"type": "string", "description": "关键词", "example": "热点新闻"}
+                "keyword": {"type": "string", "description": "关键词", "example": "热点新闻"},
+                "pageno": {"type": "number", "description": "页码", "example": 1, "default": 1},
+                "time_range": {"type": "string", "description": "时间范围", "example": "all", "enum": ["all", "day", "week", "month", "year"]}
             },
-            "required": ["keyword"]
+            "required": ["keyword", "pageno"]
         },
         "function": fetch_web
     },

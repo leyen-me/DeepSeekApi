@@ -1,7 +1,10 @@
 import json
 from constans import build_tool_response
+from colorama import init, Fore, Style
 
 def get_ip_info(ctx):
+    print(Fore.GREEN + '--------get_ip_info--------')
+
     from flask import request
     client_ip = request.remote_addr
     # 如果使用了代理，可能需要从X-Forwarded-For头获取真实IP
